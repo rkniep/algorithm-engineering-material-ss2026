@@ -14,8 +14,8 @@
 | — | May 28 | *Exkursionswoche* | — | — | — |
 | 7 | Jun 4 | L08: Graph Algorithms | | | |
 | 8 | Jun 11 | L09: SAT | | T04: Real-World Problems | |
-| 9 | Jun 18 | L10: CP Technology & Explainability | | T05: Benchmarking & Tuning | |
-| 10 | Jun 25 | L11: Decomposition | | | |
+| 9 | Jun 18 | L10: CP Technology & Explainability | | | |
+| 10 | Jun 25 | L11: Decomposition | | T05: Benchmarking & Tuning | |
 | 11 | Jul 2 | L12: Meta-Heuristics | | | |
 | 12 | Jul 9 | L13: Robustness + Multi-Objective | | T06: TDD | |
 | 13 | Jul 16 | L14: SDA + INFORMS | | | |
