@@ -25,18 +25,19 @@ jobs:
       - name: Render slides
         run: |
           for qmd in slides/*/L*.qmd; do
-            dir=$(dirname "$qmd")
-            quarto render "$qmd" --output-dir "$dir/_output"
+            quarto render "$qmd"
           done
 
       - name: Assemble site
         run: |
           mkdir -p _site
           for dir in slides/*/; do
+            [ "$dir" = "slides/*/" ] && continue
             name=$(basename "$dir")
-            if [ -d "$dir/_output" ]; then
-              cp -r "$dir/_output/." "_site/$name/"
-            fi
+            mkdir -p "_site/$name"
+            # Copy rendered HTML and all assets
+            cp -r "$dir"*.html "$dir"*_files "_site/$name/" 2>/dev/null || true
+            cp -r "$dir/assets" "_site/$name/assets" 2>/dev/null || true
           done
           cp slides/index.html _site/index.html 2>/dev/null || true
 
