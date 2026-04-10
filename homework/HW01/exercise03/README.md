@@ -104,6 +104,40 @@ cpp_best_improvement(points, initial_tour, timeout=10.0) -> list[int]
 parallel_two_opt(points, num_threads=4, base_seed=0, timeout=10.0) -> list[int]
 ```
 
+## Build Troubleshooting
+
+**C++ changes not taking effect?**
+The `-e` (editable) flag only live-updates Python source files. The compiled
+C++ module (`.so` / `.pyd`) requires a rebuild: run `pip install -e .` again
+after editing `_core.cpp`. If the old behavior persists, try
+`pip install -e . --no-build-isolation` or delete the `_skbuild/` directory.
+
+**Windows: MinGW build fails?**
+scikit-build-core does not reliably work with MinGW
+([scikit-build-core#900](https://github.com/scikit-build/scikit-build-core/issues/900)).
+Install [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+(the "Desktop development with C++" workload) or use the Docker fallback
+described above.
+
+**CMake error: `pybind11Config.cmake` not found?**
+This means pybind11's CMake files are missing from your environment
+([pybind11#3445](https://github.com/pybind/pybind11/issues/3445)). Fix:
+
+```bash
+pip install pybind11
+pip install -e .
+```
+
+**Using `uv` instead of `pip`?**
+scikit-build-core's editable mode is currently incompatible with `uv`
+([uv#14383](https://github.com/astral-sh/uv/issues/14383)). Use standard
+`pip` for this exercise.
+
+**`ImportError` when importing C++ functions?**
+If you renamed `_core.cpp` or changed the `PYBIND11_MODULE(_core, m)` macro,
+the module name must match the CMake target name in `CMakeLists.txt`. A
+mismatch causes a silent import failure.
+
 ## About pybind11
 
 [pybind11](https://pybind11.readthedocs.io/) lets you call C++ functions
