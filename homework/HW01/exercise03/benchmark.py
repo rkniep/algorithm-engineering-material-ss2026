@@ -164,13 +164,13 @@ examples:
         # Python variants
         print(f"\n  Python:")
         res = run_multi_seed(first_improvement_two_opt, points, initial_tours,
-                             label="first-impr")
+                             label="first-impr", timeout=TIMEOUT)
         rows.append(("first-impr (py)", res))
         res = run_multi_seed(best_improvement_two_opt, points, initial_tours,
-                             label="best-impr")
+                             label="best-impr", timeout=TIMEOUT)
         rows.append(("best-impr (py)", res))
         res = run_multi_seed(full_scan_two_opt, points, initial_tours,
-                             label="full-scan")
+                             label="full-scan", timeout=TIMEOUT)
         rows.append(("full-scan (py)", res))
 
         if have_cpp:
