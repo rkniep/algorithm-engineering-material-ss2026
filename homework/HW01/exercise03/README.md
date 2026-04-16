@@ -84,16 +84,17 @@ and prints a summary table comparing tour length and runtime.
 
 ## Function Signatures
 
-All single-run functions take a list of `(x, y)` tuples and an `initial_tour`
-(a permutation of `0..n-1`), and return the improved tour. The benchmark
-generates the initial tour in Python and passes it to every variant, so all
-start from the same permutation and results are directly comparable.
+All single-run functions take a list of `(x, y)` tuples, an `initial_tour`
+(a permutation of `0..n-1`), and an optional `timeout` in seconds, and
+return the improved tour. The benchmark generates the initial tour in
+Python and passes it to every variant, so all start from the same
+permutation and results are directly comparable.
 
 ```python
-# Part a: Python variants
-first_improvement_two_opt(points, initial_tour) -> list[int]
-full_scan_two_opt(points, initial_tour) -> list[int]
-best_improvement_two_opt(points, initial_tour) -> list[int]
+# Part a: Python variants (all take an optional timeout in seconds)
+first_improvement_two_opt(points, initial_tour, timeout=10.0) -> list[int]
+full_scan_two_opt(points, initial_tour, timeout=10.0) -> list[int]
+best_improvement_two_opt(points, initial_tour, timeout=10.0) -> list[int]
 
 # Part b: C++ variants (all take an optional timeout in seconds)
 cpp_first_improvement(points, initial_tour, timeout=10.0) -> list[int]
@@ -103,6 +104,11 @@ cpp_best_improvement(points, initial_tour, timeout=10.0) -> list[int]
 # Part c: parallel 2-opt (generates its own random tours internally)
 parallel_two_opt(points, num_threads=4, base_seed=0, timeout=10.0) -> list[int]
 ```
+
+When the timeout is reached, return the best tour found so far. Coarse-grained
+checks are fine: compare `time.perf_counter()` (Python) or `Clock::now()` (C++)
+against a precomputed deadline after each restart or full sweep, not inside
+the innermost loop.
 
 ## Build Troubleshooting
 
